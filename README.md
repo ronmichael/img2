@@ -6,7 +6,6 @@ It provides adaptive image resizing to accomodate HD images for high-resolution 
 without unnecessarily burderning devices that don't support it.
 
 
-
 Installation
 -------------------------------------------------------------
 - Install the ImgAdapater.cs and ImgHandler.cs files into your App_Code folder
