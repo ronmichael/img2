@@ -113,13 +113,21 @@ public class ImgAdapter : System.Web.UI.Adapters.ControlAdapter
  
     private bool SupportsHD()
     {
+        
 
         HttpBrowserCapabilities b = HttpContext.Current.Request.Browser;
         string agent = HttpContext.Current.Request.UserAgent;
 
-        // yes for retina displays; need to fine tune this for only iPhone 4+ and iPad 3+
+        // check for iOS ..  not that reliable at detecting retina vs non-retina displays..
         if (agent.Contains("like Mac OS X"))
-            return true;
+        {
+            if (agent.Contains("Mobile/7E18")) // ios 3.1.3
+                return false;
+            else if (agent.Contains("Mobile/8C148")) // ios 4.2.1
+                return false;
+            else // assume true for all other iOS devices
+                return true;
+        }
 
 
         // assume no for everything else
