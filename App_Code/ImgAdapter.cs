@@ -50,7 +50,7 @@ public class ImgAdapter : System.Web.UI.Adapters.ControlAdapter
      
         if (!fname.EndsWith(".svg"))
         {
-            if(width>=0 || height>=0)
+            if( (width>=0 || height>=0) && !SupportsHD())
             {
 
                 // move width & height to parameters in image filename, let ImgHandler resize
@@ -65,12 +65,14 @@ public class ImgAdapter : System.Web.UI.Adapters.ControlAdapter
 
                 // we'll still include the width & height in the img properties so the browser knows the dimensions beforehand
 
-                // we should at some point use some of the handler code to example the file, determine proportions,
-                // and then include the proper width and height here.
-
                 fname += xx;
                  
             }
+        
+            // we should at some point use some of the handler code to example the file, determine proportions,
+            // and then include the proper width and height here.
+
+
         }
 
         // write out new tag
@@ -109,6 +111,25 @@ public class ImgAdapter : System.Web.UI.Adapters.ControlAdapter
 
 
  
+    private bool SupportsHD()
+    {
+
+        HttpBrowserCapabilities b = HttpContext.Current.Request.Browser;
+        string agent = HttpContext.Current.Request.UserAgent;
+
+        // yes for retina displays; need to fine tune this for only iPhone 4+ and iPad 3+
+        if (agent.Contains("like Mac OS X"))
+            return true;
+
+
+        // assume no for everything else
+
+        return false;
+
+    }
+
+
+
     private bool SupportsSvg()
     {
         
